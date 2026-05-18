@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leikforgjöf Reiknivél</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f2f5f2;
+            --surface: #ffffff;
+            --primary: #1a4d2e;
+            --primary-mid: #246638;
+            --accent: #2d8a4e;
+            --text-1: #0d1a10;
+            --text-2: #476050;
+            --text-3: #8aa490;
+            --border: #d8e6db;
+            --border-active: #2d8a4e;
+            --input-bg: #fafcfa;
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 12px 40px -8px rgba(0,0,0,0.09);
+            --shadow-btn: 0 1px 3px rgba(0,0,0,0.1);
+            --transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Navigation ── */
+        .nav {
+            padding: 18px 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-mark {
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-mark svg { display: block; }
+
+        .nav-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-2);
+            letter-spacing: 0.01em;
+        }
+
+        /* ── Main layout ── */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 8px 16px 48px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        /* ── Card header ── */
+        .card-header {
+            padding: 36px 36px 0;
+        }
+
+        .card-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .card-eyebrow-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse-dot 2.4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(0.85); }
+        }
+
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: var(--text-1);
+            margin-bottom: 6px;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-2);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* ── Form body ── */
+        .card-body {
+            padding: 28px 36px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ── Step ── */
+        .step {}
+
+        .step-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .step-index {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            display: grid;
+            place-items: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-2);
+            flex-shrink: 0;
+            letter-spacing: 0;
+        }
+
+        .step-text {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-2);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* ── Inputs ── */
+        .stepper-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stepper-row input { flex: 1; min-width: 0; }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 13px 16px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-1);
+            background: var(--input-bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            outline: none;
+            transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--border-active);
+            box-shadow: 0 0 0 3.5px rgba(45,138,78,0.12);
+            background: var(--surface);
+        }
+
+        input[type="text"]::placeholder { color: var(--text-3); font-weight: 400; }
+
+        input[type="text"]:disabled,
+        select:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            background: var(--bg);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%238aa490' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 38px;
+            cursor: pointer;
+        }
+
+        select:disabled { cursor: not-allowed; }
+
+        /* ── Stepper buttons ── */
+        .stepper-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border);
+            background: var(--input-bg);
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-family: inherit;
+            font-weight: 400;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+            flex-shrink: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            line-height: 1;
+        }
+
+        .stepper-btn:hover {
+            background: #e6f2ea;
+            border-color: var(--accent);
+        }
+
+        .stepper-btn:active {
+            transform: scale(0.94);
+            background: #d4eadb;
+        }
+
+        /* ── Gender toggle ── */
+        .gender-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--input-bg);
+        }
+
+        .gender-btn {
+            padding: 13px 16px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            color: var(--text-2);
+            cursor: pointer;
+            transition: background var(--transition), color var(--transition);
+            position: relative;
+        }
+
+        .gender-btn:first-child {
+            border-right: 1px solid var(--border);
+        }
+
+        .gender-btn.active {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .gender-btn:not(.active):hover { background: #e6f2ea; color: var(--primary); }
+
+        /* ── Searchable course dropdown ── */
+        .search-select { position: relative; }
+
+        .search-select input {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238aa490' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 4px 24px -4px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .search-dropdown.open { display: block; }
+
+        .search-dropdown .region-label {
+            padding: 10px 14px 5px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: #f8fbf8;
+            position: sticky;
+            top: 0;
+        }
+
+        .search-dropdown .course-option {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-1);
+            cursor: pointer;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        .search-dropdown .course-option:hover,
+        .search-dropdown .course-option.highlighted {
+            background: #edf5ef;
+            color: var(--primary);
+        }
+
+        .search-dropdown .no-results {
+            padding: 16px;
+            text-align: center;
+            color: var(--text-3);
+            font-size: 0.88rem;
+        }
+
+        /* ── Input hint ── */
+        .input-hint {
+            font-size: 0.73rem;
+            color: var(--text-3);
+            margin-top: 5px;
+            padding-left: 2px;
+        }
+
+        /* ── Divider ── */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 0;
+        }
+
+        /* ── Result card ── */
+        .result-card {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: opacity 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .result-card.hidden { opacity: 0; transform: translateY(8px); pointer-events: none; height: 0; margin: 0; overflow: hidden; }
+        .result-card.visible { opacity: 1; transform: translateY(0); }
+
+        .result-inner {
+            background: var(--primary);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+        }
+
+        .result-eyebrow {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 6px;
+        }
+
+        .result-number {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .result-course-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 24px;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            padding-top: 18px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0 4px;
+        }
+
+        .stat + .stat {
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.02em;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 16px 24px 36px;
+            color: var(--text-3);
+            font-size: 0.78rem;
+            line-height: 1.65;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        footer strong { color: var(--text-2); font-weight: 500; }
+
+        /* ── Responsive ── */
+        @media (max-width: 540px) {
+            .nav { padding: 16px 20px; }
+            main { padding: 6px 12px 40px; }
+            .card-header { padding: 28px 24px 0; }
+            .card-body { padding: 22px 24px 28px; gap: 18px; }
+            .card-title { font-size: 1.5rem; }
+            .result-number { font-size: 3.6rem; }
+            .result-stats { gap: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5" r="3" fill="white" opacity="0.9"/>
+            <path d="M5 9.5c0 0 .8-1 3-1s3 1 3 1v2s-.8 1-3 1-3-1-3-1v-2z" fill="white" opacity="0.55"/>
+        </svg>
+    </div>
+    <span class="nav-title">Golfsamband Íslands</span>
+</nav>
+
+<main>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-eyebrow">
+                <span class="card-eyebrow-dot"></span>
+                Leikforgjöf
+            </div>
+            <h1 class="card-title">Forgjöf Reiknivél</h1>
+            <p class="card-subtitle">Finndu leikforgjöfina þína á öllum skráðum völlum á Íslandi.</p>
+        </div>
+
+        <div class="card-body">
+            <div class="step">
+                <div class="step-label">
+                    <div class="step-index">1</div>
+                    <span class="step-text">Forgjöfin þín (Handicap Index)</span>
+                </div>
+                <div class="stepper-row">
+                    <button class="stepper-btn" id="btnMinus" onclick="stepHandicap(-1)" aria-label="Minnka">−</button>
+                    <input type="text" inputmode="decimal" id="handicapInput" placeholder="t.d. 18.4" aria-label="Handicap Index">
+                    <button class="stepper-btn" id="btnPlus" onclick="stepHandicap(1)" aria-label="Auka">+</button>
+                </div>
+                <p class="input-hint">Gildi á milli 0 og 54</p>
+            </div>
+
+            <div class="step">
+                <div class="step-label">
+                    <div class="step-index">2</div>
+                    <span class="step-text">Karlar / Konur</span>
+                </div>
+                <div class="gender-toggle">
+                    <button class="gender-btn active" id="btnMen" onclick="setGender('men')">Karlar</button>
+                    <button class="gender-btn" id="btnWomen" onclick="setGender('women')">Konur</button>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-label">
+                    <div class="step-index">3</div>
+                    <span class="step-text">Veldu völl</span>
+                </div>
+                <div class="search-select" id="courseSearchWrapper">
+                    <input type="text" id="courseSearch" placeholder="-- Sláðu inn forgjöf fyrst --" disabled autocomplete="off" aria-label="Leita að velli">
+                    <div class="search-dropdown" id="courseDropdown"></div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-label">
+                    <div class="step-index">4</div>
+                    <span class="step-text">Veldu teig</span>
+                </div>
+                <select id="teeSelect" disabled aria-label="Veldu teig">
+                    <option value="">-- Veldu völl fyrst --</option>
+                </select>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="result-card hidden" id="resultCard" role="region" aria-live="polite" aria-label="Leikforgjöf niðurstaða">
+                <div class="result-inner">
+                    <div class="result-eyebrow">Leikforgjöf</div>
+                    <div class="result-number" id="resultNumber">--</div>
+                    <div class="result-course-name" id="resultCourseName"></div>
+                    <div class="result-stats">
+                        <div class="stat">
+                            <span class="stat-label">Par</span>
+                            <span class="stat-value" id="detailPar">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Rating</span>
+                            <span class="stat-value" id="detailCR">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Slope</span>
+                            <span class="stat-value" id="detailSlope">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Metrar</span>
+                            <span class="stat-value" id="detailMeters">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <strong>Formúla:</strong> Leikforgjöf = Forgjöf &times; (Slope / 113) + (Course Rating &minus; Par)<br>
+    Gögn frá rastimar.golf.is (Golfsamband Íslands). Gögn geta breyst &mdash; athugaðu hjá klúbbnum þínum.
+</footer>
+
+<script>
+// All data from rastimar.golf.is (Golfsamband Íslands) — official source
+const courses = [
+    // ===== HÖFUÐBORGARSVÆÐIÐ =====
+    {
+        name: "Grafarholt",
+        location: "Reykjavík",
+        region: "Höfuðborgarsvæðið",
+        par: 71,
+        tees_men: [
+            { color: "Teigur 63", meters: 6059, slope: 139, rating: 73.0 },
+            { color: "Teigur 57", meters: 5482, slope: 127, rating: 69.4 },
+            { color: "Teigur 52", meters: 5118, slope: 123, rating: 67.0 },
+            { color: "Teigur 46", meters: 4624, slope: 113, rating: 65.0 }
+        ],
+        tees_women: [
+            { color: "Teigur 57", meters: 5482, slope: 136, rating: 75.8 },
+            { color: "Teigur 52", meters: 5118, slope: 126, rating: 72.4 },
+            { color: "Teigur 46", meters: 4624, slope: 120, rating: 70.4 }
+        ]
+    },
+    {
+        name: "Korpa — Sjórinn",
+        location: "Reykjavík",
+        region: "Höfuðborgarsvæðið",
+        par: 36,
+        tees_men: [
+            { color: "Teigur 63", meters: 3056, slope: 128, rating: 73.0 },
+            { color: "Teigur 57", meters: 2766, slope: 124, rating: 68.8 },
+            { color: "Teigur 52", meters: 2622, slope: 111, rating: 68.4 },
+            { color: "Teigur 46", meters: 2249, slope: 104, rating: 64.8 }
+        ],
+        tees_women: [
+            { color: "Teigur 57", meters: 2766, slope: 128, rating: 75.0 },
+            { color: "Teigur 52", meters: 2622, slope: 126, rating: 74.0 },
+            { color: "Teigur 46", meters: 2249, slope: 116, rating: 69.2 }
+        ]
+    },
+    {
+        name: "Korpa — Landið",
+        location: "Reykjavík",
+        region: "Höfuðborgarsvæðið",
+        par: 36,
+        tees_men: [
+            { color: "Teigur 63", meters: 2933, slope: 132, rating: 70.8 },
+            { color: "Teigur 57", meters: 2768, slope: 121, rating: 68.8 },
+            { color: "Teigur 52", meters: 2614, slope: 108, rating: 67.6 },
+            { color: "Teigur 46", meters: 2358, slope: 102, rating: 65.2 }
+        ],
+        tees_women: [
+            { color: "Teigur 57", meters: 2768, slope: 132, rating: 74.8 },
+            { color: "Teigur 52", meters: 2614, slope: 131, rating: 73.2 },
+            { color: "Teigur 46", meters: 2358, slope: 121, rating: 69.4 }
+        ]
+    },
+    {
+        name: "Korpa — Áin",
+        location: "Reykjavík",
+        region: "Höfuðborgarsvæðið",
+        par: 36,
+        tees_men: [
+            { color: "Teigur 63", meters: 3045, slope: 137, rating: 73.2 },
+            { color: "Teigur 57", meters: 2708, slope: 127, rating: 69.2 },
+            { color: "Teigur 52", meters: 2459, slope: 117, rating: 66.0 },
+            { color: "Teigur 46", meters: 2190, slope: 111, rating: 63.2 }
+        ],
+        tees_women: [
+            { color: "Teigur 57", meters: 2708, slope: 138, rating: 75.0 },
+            { color: "Teigur 52", meters: 2459, slope: 126, rating: 72.0 },
+            { color: "Teigur 46", meters: 2190, slope: 121, rating: 68.0 }
+        ]
+    },
+    {
+        name: "Keilir — Hvaleyrarvöllur",
+        location: "Hafnarfjörður",
+        region: "Höfuðborgarsvæðið",
+        par: 71,
+        tees_men: [
+            { color: "Hvítur", meters: 5852, slope: 122, rating: 70.6 },
+            { color: "Gulur", meters: 5405, slope: 116, rating: 68.8 },
+            { color: "Blár", meters: 5131, slope: 117, rating: 67.3 },
+            { color: "Rauður", meters: 4577, slope: 106, rating: 63.7 }
+        ],
+        tees_women: [
+            { color: "Blár", meters: 5131, slope: 122, rating: 72.6 },
+            { color: "Rauður", meters: 4577, slope: 115, rating: 69.5 }
+        ]
+    },
+    {
+        name: "Oddur — Urriðavöllur",
+        location: "Garðabær",
+        region: "Höfuðborgarsvæðið",
+        par: 71,
+        tees_men: [
+            { color: "Teigur 58", meters: 5859, slope: 136, rating: 72.4 },
+            { color: "Teigur 54", meters: 5412, slope: 130, rating: 70.2 },
+            { color: "Teigur 49", meters: 4880, slope: 121, rating: 68.0 },
+            { color: "Teigur 46", meters: 4542, slope: 113, rating: 65.8 }
+        ],
+        tees_women: [
+            { color: "Teigur 54", meters: 5412, slope: 143, rating: 75.9 },
+            { color: "Teigur 49", meters: 4880, slope: 130, rating: 72.5 },
+            { color: "Teigur 46", meters: 4542, slope: 125, rating: 70.3 }
+        ]
+    },
+    {
+        name: "Leirdalsvöllur (Kópavogs)",
+        location: "Garðabær",
+        region: "Höfuðborgarsvæðið",
+        par: 71,
+        tees_men: [
+            { color: "Teigur 59", meters: 5869, slope: 142, rating: 72.8 },
+            { color: "Teigur 54", meters: 5431, slope: 134, rating: 70.3 },
+            { color: "Teigur 52", meters: 5168, slope: 128, rating: 69.7 },
+            { color: "Teigur 47", meters: 4716, slope: 116, rating: 66.9 }
+        ],
+        tees_women: [
+            { color: "Teigur 54", meters: 5431, slope: 143, rating: 76.2 },
+            { color: "Teigur 52", meters: 5168, slope: 139, rating: 74.3 },
+            { color: "Teigur 47", meters: 4716, slope: 134, rating: 71.2 }
+        ]
+    },
+    {
+        name: "Hlíðavöllur (Mosfellsbær)",
+        location: "Mosfellsbær",
+        region: "Höfuðborgarsvæðið",
+        par: 71,
+        tees_men: [
+            { color: "Hvítur", meters: 5589, slope: 131, rating: 70.2 },
+            { color: "Gulur", meters: 5213, slope: 124, rating: 68.3 },
+            { color: "Blár", meters: 5039, slope: 121, rating: 67.5 },
+            { color: "Rauður", meters: 4506, slope: 110, rating: 64.9 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 5213, slope: 138, rating: 74.2 },
+            { color: "Blár", meters: 5039, slope: 131, rating: 72.6 },
+            { color: "Rauður", meters: 4506, slope: 122, rating: 69.9 }
+        ]
+    },
+    {
+        name: "Brautarholt",
+        location: "Reykjavík",
+        region: "Höfuðborgarsvæðið",
+        par: 70,
+        tees_men: [
+            { color: "Hvítur", meters: 5323, slope: 120, rating: 68.8 },
+            { color: "Gulur", meters: 5052, slope: 118, rating: 67.8 },
+            { color: "Blár", meters: 4614, slope: 110, rating: 64.9 },
+            { color: "Rauður", meters: 4090, slope: 97, rating: 62.6 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 5052, slope: 134, rating: 73.2 },
+            { color: "Blár", meters: 4614, slope: 121, rating: 69.8 },
+            { color: "Rauður", meters: 4090, slope: 110, rating: 66.1 }
+        ]
+    },
+    {
+        name: "Álftanes — Álftanesvöllur",
+        location: "Álftanes",
+        region: "Höfuðborgarsvæðið",
+        par: 64,
+        tees_men: [
+            { color: "Gulur", meters: 3500, slope: 93, rating: 60.8 },
+            { color: "Rauður", meters: 3058, slope: 86, rating: 59.4 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 3500, slope: 109, rating: 62.6 },
+            { color: "Rauður", meters: 3058, slope: 105, rating: 60.4 }
+        ]
+    },
+    {
+        name: "Nesvöllur (Nesklúbburinn)",
+        location: "Seltjarnarnes",
+        region: "Höfuðborgarsvæðið",
+        par: 70,
+        tees_men: [
+            { color: "Teigur 49", meters: 2484, slope: 116, rating: 67.0 },
+            { color: "Teigur 44", meters: 2208, slope: 104, rating: 65.2 },
+            { color: "Teigur 33", meters: 1688, slope: 90, rating: 61.0 }
+        ],
+        tees_women: [
+            { color: "Teigur 49", meters: 2484, slope: 131, rating: 72.8 },
+            { color: "Teigur 44", meters: 2208, slope: 114, rating: 69.0 },
+            { color: "Teigur 33", meters: 1688, slope: 103, rating: 62.0 }
+        ]
+    },
+
+    // ===== REYKJANES =====
+    {
+        name: "Suðurnesja — Hólmsvöllur",
+        location: "Keflavík",
+        region: "Reykjanes",
+        par: 71,
+        tees_men: [
+            { color: "Hvítur", meters: 5902, slope: 130, rating: 71.3 },
+            { color: "Gulur", meters: 5462, slope: 125, rating: 69.7 },
+            { color: "Blár", meters: 5150, slope: 121, rating: 68.3 },
+            { color: "Rauður", meters: 4578, slope: 113, rating: 64.6 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 5462, slope: 135, rating: 75.8 },
+            { color: "Blár", meters: 5150, slope: 131, rating: 73.9 },
+            { color: "Rauður", meters: 4578, slope: 127, rating: 69.9 }
+        ]
+    },
+    {
+        name: "Grindavík — Húsatóftavöllur",
+        location: "Grindavík",
+        region: "Reykjanes",
+        par: 70,
+        tees_men: [
+            { color: "Teigur 52", meters: 5202, slope: 119, rating: 68.1 },
+            { color: "Teigur 41", meters: 4076, slope: 113, rating: 63.1 }
+        ],
+        tees_women: [
+            { color: "Teigur 52", meters: 5202, slope: 132, rating: 73.4 },
+            { color: "Teigur 41", meters: 4076, slope: 108, rating: 66.1 }
+        ]
+    },
+    {
+        name: "Sandgerði — Kirkjubólsvöllur",
+        location: "Sandgerði",
+        region: "Reykjanes",
+        par: 72,
+        tees_men: [
+            { color: "Gulur", meters: 5284, slope: 117, rating: 68.0 },
+            { color: "Blár", meters: 4901, slope: 110, rating: 65.8 },
+            { color: "Rauður", meters: 4721, slope: 109, rating: 65.0 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 5284, slope: 129, rating: 73.9 },
+            { color: "Blár", meters: 4901, slope: 122, rating: 71.2 },
+            { color: "Rauður", meters: 4721, slope: 119, rating: 70.0 }
+        ]
+    },
+    {
+        name: "Kálfatjarnarvöllur (Vatnsleysustrandar)",
+        location: "Vatnsleysuströnd",
+        region: "Reykjanes",
+        par: 72,
+        tees_men: [
+            { color: "Teigur 54", meters: 5443, slope: 127, rating: 68.2 },
+            { color: "Teigur 43", meters: 4300, slope: 97, rating: 63.4 }
+        ],
+        tees_women: [
+            { color: "Teigur 43", meters: 4300, slope: 114, rating: 67.2 }
+        ]
+    },
+
+    // ===== VESTURLAND =====
+    {
+        name: "Borgarness — Hamarsvöllur",
+        location: "Borgarnes",
+        region: "Vesturland",
+        par: 71,
+        tees_men: [
+            { color: "Teigur 55", meters: 5535, slope: 131, rating: 70.1 },
+            { color: "Teigur 53", meters: 5314, slope: 125, rating: 69.0 },
+            { color: "Teigur 48", meters: 4862, slope: 119, rating: 66.7 },
+            { color: "Teigur 42", meters: 4296, slope: 106, rating: 63.9 }
+        ],
+        tees_women: [
+            { color: "Teigur 55", meters: 5535, slope: 132, rating: 76.6 },
+            { color: "Teigur 53", meters: 5314, slope: 129, rating: 75.3 },
+            { color: "Teigur 48", meters: 4862, slope: 128, rating: 71.9 },
+            { color: "Teigur 42", meters: 4296, slope: 123, rating: 68.3 }
+        ]
+    },
+    {
+        name: "Leynir — Garðavöllur",
+        location: "Akranes",
+        region: "Vesturland",
+        par: 72,
+        tees_men: [
+            { color: "Gulur", meters: 4992, slope: 115, rating: 67.0 },
+            { color: "Rauður", meters: 4110, slope: 107, rating: 64.0 }
+        ],
+        tees_women: [
+            { color: "Rauður", meters: 4110, slope: 113, rating: 67.0 }
+        ]
+    },
+    {
+        name: "Mostri — Víkurvöllur",
+        location: "Stykkishólmur",
+        region: "Vesturland",
+        par: 72,
+        tees_men: [
+            { color: "Teigur 54", meters: 5447, slope: 122, rating: 68.8 }
+        ],
+        tees_women: [
+            { color: "Teigur 54", meters: 5447, slope: 134, rating: 74.2 }
+        ]
+    },
+    {
+        name: "Setberg — Setbergsvöllur",
+        location: "Grundarfjörður",
+        region: "Vesturland",
+        par: 72,
+        tees_men: [
+            { color: "Teigur 56", meters: 5606, slope: 130, rating: 70.8 },
+            { color: "Teigur 52", meters: 5225, slope: 127, rating: 68.8 },
+            { color: "Teigur 46", meters: 4600, slope: 115, rating: 65.5 }
+        ],
+        tees_women: [
+            { color: "Teigur 56", meters: 5606, slope: 148, rating: 77.0 },
+            { color: "Teigur 52", meters: 5225, slope: 139, rating: 74.5 },
+            { color: "Teigur 46", meters: 4600, slope: 125, rating: 70.5 }
+        ]
+    },
+
+    // ===== VESTFIRÐIR =====
+    {
+        name: "Ísafjörður — Tungudalsvöllur",
+        location: "Ísafjörður",
+        region: "Vestfirðir",
+        par: 72,
+        tees_men: [
+            { color: "Gulur", meters: 2642, slope: 132, rating: 69.4 },
+            { color: "Rauður", meters: 2057, slope: 104, rating: 64.4 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 2642, slope: 144, rating: 75.4 },
+            { color: "Rauður", meters: 2057, slope: 118, rating: 67.4 }
+        ]
+    },
+
+    // ===== SUÐURLAND =====
+    {
+        name: "Selfoss — Svarfhólsvöllur",
+        location: "Selfoss",
+        region: "Suðurland",
+        par: 54,
+        tees_men: [
+            { color: "Hvítur", meters: 4393, slope: 120, rating: 69.2 },
+            { color: "Gulur", meters: 4110, slope: 114, rating: 66.8 },
+            { color: "Blár", meters: 3780, slope: 108, rating: 64.8 },
+            { color: "Rauður", meters: 3399, slope: 99, rating: 62.5 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 4110, slope: 120, rating: 72.7 },
+            { color: "Blár", meters: 3780, slope: 119, rating: 70.0 },
+            { color: "Rauður", meters: 3399, slope: 106, rating: 66.7 }
+        ]
+    },
+    {
+        name: "Hella — Strandavöllur",
+        location: "Hella",
+        region: "Suðurland",
+        par: 70,
+        tees_men: [
+            { color: "Hvítur", meters: 5568, slope: 115, rating: 69.4 },
+            { color: "Gulur", meters: 5252, slope: 114, rating: 67.7 },
+            { color: "Blár", meters: 4814, slope: 108, rating: 65.4 },
+            { color: "Rauður", meters: 4522, slope: 102, rating: 64.1 }
+        ],
+        tees_women: [
+            { color: "Blár", meters: 4814, slope: 119, rating: 70.7 },
+            { color: "Rauður", meters: 4522, slope: 114, rating: 68.8 }
+        ]
+    },
+    {
+        name: "Kiðjaberg — Kiðjabergsvöllur",
+        location: "Selfoss",
+        region: "Suðurland",
+        par: 71,
+        tees_men: [
+            { color: "Teigur 59", meters: 5952, slope: 134, rating: 72.2 },
+            { color: "Teigur 54", meters: 5665, slope: 128, rating: 70.1 },
+            { color: "Teigur 50", meters: 5438, slope: 118, rating: 68.1 },
+            { color: "Teigur 46", meters: 4837, slope: 114, rating: 65.4 }
+        ],
+        tees_women: [
+            { color: "Teigur 50", meters: 5438, slope: 122, rating: 73.2 },
+            { color: "Teigur 46", meters: 4837, slope: 124, rating: 70.6 }
+        ]
+    },
+    {
+        name: "Vestmannaeyjar",
+        location: "Vestmannaeyjar",
+        region: "Suðurland",
+        par: 70,
+        tees_men: [
+            { color: "Hvítur", meters: 4432, slope: 120, rating: 70.1 },
+            { color: "Gulur", meters: 4349, slope: 121, rating: 68.5 },
+            { color: "Blár", meters: 4035, slope: 119, rating: 66.7 },
+            { color: "Rauður", meters: 3831, slope: 115, rating: 65.6 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 4349, slope: 138, rating: 74.7 },
+            { color: "Blár", meters: 4035, slope: 130, rating: 72.4 },
+            { color: "Rauður", meters: 3831, slope: 126, rating: 71.6 }
+        ]
+    },
+    {
+        name: "Þorlákshöfn — Þorláksvöllur",
+        location: "Þorlákshöfn",
+        region: "Suðurland",
+        par: 72,
+        tees_men: [
+            { color: "Hvítur", meters: 5857, slope: 122, rating: 70.7 },
+            { color: "Gulur", meters: 5315, slope: 118, rating: 68.2 },
+            { color: "Blár", meters: 4876, slope: 107, rating: 65.9 },
+            { color: "Rauður", meters: 4320, slope: 97, rating: 63.3 }
+        ],
+        tees_women: [
+            { color: "Blár", meters: 4876, slope: 126, rating: 70.9 },
+            { color: "Rauður", meters: 4320, slope: 118, rating: 67.7 }
+        ]
+    },
+    {
+        name: "Öndverðarness",
+        location: "Snæfellsnes",
+        region: "Suðurland",
+        par: 70,
+        tees_men: [
+            { color: "Gulur", meters: 5614, slope: 127, rating: 67.8 },
+            { color: "Blár", meters: 5119, slope: 113, rating: 65.5 },
+            { color: "Rauður", meters: 4719, slope: 100, rating: 64.0 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 5614, slope: 134, rating: 74.0 },
+            { color: "Blár", meters: 5119, slope: 124, rating: 71.3 },
+            { color: "Rauður", meters: 4719, slope: 120, rating: 69.1 }
+        ]
+    },
+    {
+        name: "Flúðir — Selsvöllur",
+        location: "Flúðir",
+        region: "Suðurland",
+        par: 70,
+        tees_men: [
+            { color: "Teigur 52", meters: 5175, slope: 123, rating: 67.8 },
+            { color: "Teigur 48", meters: 4827, slope: 118, rating: 66.3 },
+            { color: "Teigur 45", meters: 4524, slope: 109, rating: 65.0 }
+        ],
+        tees_women: [
+            { color: "Teigur 52", meters: 5175, slope: 134, rating: 73.6 },
+            { color: "Teigur 48", meters: 4827, slope: 125, rating: 71.3 },
+            { color: "Teigur 45", meters: 4524, slope: 122, rating: 68.9 }
+        ]
+    },
+    {
+        name: "Hveragerði — Gufudalsvöllur",
+        location: "Hveragerði",
+        region: "Suðurland",
+        par: 72,
+        tees_men: [
+            { color: "Teigur 54", meters: 5414, slope: 117, rating: 68.4 },
+            { color: "Teigur 50", meters: 5064, slope: 113, rating: 66.8 },
+            { color: "Teigur 45", meters: 4584, slope: 104, rating: 65.0 }
+        ],
+        tees_women: [
+            { color: "Teigur 54", meters: 5414, slope: 133, rating: 74.0 },
+            { color: "Teigur 50", meters: 5064, slope: 130, rating: 71.6 },
+            { color: "Teigur 45", meters: 4584, slope: 116, rating: 69.2 }
+        ]
+    },
+    {
+        name: "Geysir — Haukadalsvöllur",
+        location: "Haukadalur",
+        region: "Suðurland",
+        par: 72,
+        tees_men: [
+            { color: "Hvítur", meters: 3025, slope: 122, rating: 72.4 },
+            { color: "Gulur", meters: 2857, slope: 116, rating: 70.4 },
+            { color: "Rauður", meters: 2353, slope: 103, rating: 64.8 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 2857, slope: 134, rating: 75.4 },
+            { color: "Rauður", meters: 2353, slope: 120, rating: 70.6 }
+        ]
+    },
+
+    // ===== NORÐURLAND VESTRA =====
+    {
+        name: "Skagafjörður — Hlíðarendavöllur",
+        location: "Sauðárkrókur",
+        region: "Norðurland vestra",
+        par: 72,
+        tees_men: [
+            { color: "Hvítur", meters: 2970, slope: 130, rating: 73.0 },
+            { color: "Gulur", meters: 2753, slope: 130, rating: 70.2 },
+            { color: "Blár", meters: 2485, slope: 117, rating: 67.2 },
+            { color: "Rauður", meters: 2328, slope: 113, rating: 65.4 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 2753, slope: 148, rating: 77.0 },
+            { color: "Blár", meters: 2485, slope: 133, rating: 73.8 },
+            { color: "Rauður", meters: 2328, slope: 129, rating: 72.0 }
+        ]
+    },
+
+    // ===== NORÐURLAND EYSTRA =====
+    {
+        name: "Akureyri — Jaðarsvöllur",
+        location: "Akureyri",
+        region: "Norðurland eystra",
+        par: 71,
+        tees_men: [
+            { color: "Hvítur", meters: 6093, slope: 145, rating: 73.9 },
+            { color: "Gulur", meters: 5446, slope: 139, rating: 70.1 },
+            { color: "Blár", meters: 5168, slope: 131, rating: 68.4 },
+            { color: "Rauður", meters: 4534, slope: 107, rating: 65.4 }
+        ],
+        tees_women: [
+            { color: "Gulur", meters: 5446, slope: 142, rating: 76.8 },
+            { color: "Blár", meters: 5168, slope: 137, rating: 74.4 },
+            { color: "Rauður", meters: 4534, slope: 124, rating: 69.3 }
+        ]
+    },
+    {
+        name: "Dalbúi — Dalbúsvöllur",
+        location: "Dalvík",
+        region: "Norðurland eystra",
+        par: 68,
+        tees_men: [
+            { color: "Teigur 52", meters: 2624, slope: 119, rating: 67.8 },
+            { color: "Teigur 46", meters: 2308, slope: 99, rating: 64.4 }
+        ],
+        tees_women: [
+            { color: "Teigur 52", meters: 2624, slope: 124, rating: 73.2 },
+            { color: "Teigur 46", meters: 2308, slope: 121, rating: 69.4 }
+        ]
+    },
+
+    // ===== AUSTFIRÐIR =====
+    {
+        name: "Grænanes — Grænanesvöllur",
+        location: "Neskaupstaður",
+        region: "Austfirðir",
+        par: 70,
+        tees_men: [
+            { color: "Teigur 51", meters: 2566, slope: 128, rating: 68.2 },
+            { color: "Teigur 42", meters: 2117, slope: 108, rating: 64.0 }
+        ],
+        tees_women: [
+            { color: "Teigur 51", meters: 2566, slope: 137, rating: 74.0 },
+            { color: "Teigur 42", meters: 2117, slope: 124, rating: 68.2 }
+        ]
+    }
+];
+
+let selectedGender = 'men';
+let selectedCourseIdx = null;
+const handicapInput = document.getElementById('handicapInput');
+const courseSearch = document.getElementById('courseSearch');
+const courseDropdown = document.getElementById('courseDropdown');
+const teeSelect = document.getElementById('teeSelect');
+const resultCard = document.getElementById('resultCard');
+const regionOrder = ["Höfuðborgarsvæðið", "Reykjanes", "Vesturland", "Vestfirðir", "Suðurland", "Norðurland vestra", "Norðurland eystra", "Austfirðir"];
+
+function getHandicapIndex() {
+    const raw = handicapInput.value.trim().replace(',', '.');
+    const val = parseFloat(raw);
+    if (isNaN(val) || raw === '') return null;
+    if (val < 0 || val > 54) return null;
+    return val;
+}
+function stepHandicap(dir) {
+    const raw = handicapInput.value.trim().replace(',', '.');
+    let val = parseFloat(raw);
+    if (isNaN(val)) val = dir > 0 ? 0 : 0;
+    val = Math.round((val + dir * 0.1) * 10) / 10;
+    val = Math.max(0, Math.min(54, val));
+    handicapInput.value = val.toFixed(1);
+    enableCourseSearch();
+    if (selectedCourseIdx !== null) populateTees();
+}
+function getTees(course) {
+    return selectedGender === 'men' ? course.tees_men : course.tees_women;
+}
+function setGender(gender) {
+    selectedGender = gender;
+    document.getElementById('btnMen').classList.toggle('active', gender === 'men');
+    document.getElementById('btnWomen').classList.toggle('active', gender === 'women');
+    if (selectedCourseIdx !== null) { populateTees(); } else { enableCourseSearch(); }
+}
+
+// --- Searchable course dropdown ---
+function enableCourseSearch() {
+    const hi = getHandicapIndex();
+    if (hi === null) {
+        courseSearch.disabled = true;
+        courseSearch.value = '';
+        courseSearch.placeholder = '-- Sláðu inn forgjöf fyrst --';
+        closeDropdown();
+        selectedCourseIdx = null;
+        teeSelect.innerHTML = '<option value="">-- Veldu völl fyrst --</option>';
+        teeSelect.disabled = true;
+        resultCard.classList.remove('visible'); resultCard.classList.add('hidden');
+        return;
+    }
+    courseSearch.disabled = false;
+    courseSearch.placeholder = 'Leita að velli...';
+}
+function buildDropdown(filter) {
+    const query = (filter || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const grouped = {};
+    courses.forEach(c => { if (!grouped[c.region]) grouped[c.region] = []; grouped[c.region].push(c); });
+    let html = '';
+    let hasResults = false;
+    regionOrder.forEach(region => {
+        const rc = grouped[region]; if (!rc) return;
+        const filtered = rc.filter(c => {
+            const text = (c.name + ' ' + c.location).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            return text.includes(query);
+        });
+        if (filtered.length === 0) return;
+        hasResults = true;
+        html += `<div class="region-label">${region}</div>`;
+        filtered.forEach(c => {
+            const idx = courses.indexOf(c);
+            html += `<div class="course-option" data-idx="${idx}">${c.name} — ${c.location}</div>`;
+        });
+    });
+    if (!hasResults) html = '<div class="no-results">Enginn völlur fannst</div>';
+    courseDropdown.innerHTML = html;
+    courseDropdown.classList.add('open');
+}
+function closeDropdown() { courseDropdown.classList.remove('open'); }
+function selectCourse(idx) {
+    selectedCourseIdx = idx;
+    const course = courses[idx];
+    courseSearch.value = `${course.name} — ${course.location}`;
+    closeDropdown();
+    populateTees();
+}
+courseSearch.addEventListener('click', function() {
+    if (getHandicapIndex() === null) return;
+    if (selectedCourseIdx !== null) { this.value = ''; }
+    buildDropdown('');
+});
+courseSearch.addEventListener('focus', function() {
+    if (getHandicapIndex() === null) return;
+    if (selectedCourseIdx !== null) { this.value = ''; }
+    buildDropdown('');
+});
+courseSearch.addEventListener('blur', function() {
+    setTimeout(() => {
+        closeDropdown();
+        if (selectedCourseIdx !== null) {
+            const course = courses[selectedCourseIdx];
+            this.value = `${course.name} — ${course.location}`;
+        }
+    }, 150);
+});
+courseSearch.addEventListener('input', function() {
+    selectedCourseIdx = null;
+    buildDropdown(this.value);
+    teeSelect.innerHTML = '<option value="">-- Veldu völl fyrst --</option>';
+    teeSelect.disabled = true;
+    resultCard.classList.remove('visible'); resultCard.classList.add('hidden');
+});
+courseDropdown.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    const option = e.target.closest('.course-option');
+    if (option) selectCourse(parseInt(option.dataset.idx));
+});
+courseSearch.addEventListener('keydown', function(e) {
+    const options = courseDropdown.querySelectorAll('.course-option');
+    const current = courseDropdown.querySelector('.course-option.highlighted');
+    let idx = Array.from(options).indexOf(current);
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (current) current.classList.remove('highlighted');
+        idx = Math.min(idx + 1, options.length - 1);
+        options[idx].classList.add('highlighted');
+        options[idx].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (current) current.classList.remove('highlighted');
+        idx = Math.max(idx - 1, 0);
+        options[idx].classList.add('highlighted');
+        options[idx].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (current) selectCourse(parseInt(current.dataset.idx));
+    } else if (e.key === 'Escape') {
+        closeDropdown();
+        courseSearch.blur();
+    }
+});
+
+// --- Rest of logic ---
+function populateTees() {
+    if (selectedCourseIdx === null) {
+        teeSelect.innerHTML = '<option value="">-- Veldu völl fyrst --</option>';
+        teeSelect.disabled = true;
+        resultCard.classList.remove('visible'); resultCard.classList.add('hidden');
+        return;
+    }
+    const course = courses[selectedCourseIdx];
+    const tees = getTees(course);
+    teeSelect.disabled = false;
+    let html = '';
+    tees.forEach((t, i) => { html += `<option value="${i}">${t.color} — ${t.meters} m (Slope ${t.slope}, CR ${t.rating})</option>`; });
+    teeSelect.innerHTML = html;
+    calculateResult();
+}
+function calculateResult() {
+    const hi = getHandicapIndex();
+    const teeIdx = parseInt(teeSelect.value);
+    if (hi === null || selectedCourseIdx === null || isNaN(teeIdx)) {
+        resultCard.classList.remove('visible'); resultCard.classList.add('hidden'); return;
+    }
+    const course = courses[selectedCourseIdx];
+    const tees = getTees(course);
+    const tee = tees[teeIdx];
+    if (!tee) { resultCard.classList.remove('visible'); resultCard.classList.add('hidden'); return; }
+    const ph = Math.round(hi * (tee.slope / 113) + (tee.rating - course.par));
+    document.getElementById('resultNumber').textContent = ph;
+    document.getElementById('resultCourseName').textContent = `${course.name} — ${tee.color}`;
+    document.getElementById('detailPar').textContent = course.par;
+    document.getElementById('detailCR').textContent = tee.rating;
+    document.getElementById('detailSlope').textContent = tee.slope;
+    document.getElementById('detailMeters').textContent = tee.meters.toLocaleString('is-IS');
+    resultCard.classList.remove('hidden'); resultCard.classList.add('visible');
+}
+handicapInput.addEventListener('input', function() {
+    enableCourseSearch();
+    if (selectedCourseIdx !== null) populateTees();
+});
+teeSelect.addEventListener('change', calculateResult);
+</script>
+</body>
+</html>

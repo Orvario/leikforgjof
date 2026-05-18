@@ -1,0 +1,105 @@
+{
+  "source": "18Birdies.com",
+  "collected": "2025-02-11",
+  "courses": [
+    {
+      "name": "Golfklúbbur Álftaness",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd840400-86ac-11e4-8c28-020000005b00/golfklubbur-alftaness",
+      "par": 31,
+      "holes": 9,
+      "note": "Slope/rating data not populated on 18Birdies",
+      "tees": [
+        {"color": "Yellow", "yards": null, "slope": null, "course_rating_men": null},
+        {"color": "Red", "yards": null, "slope": null, "course_rating_men": null}
+      ]
+    },
+    {
+      "name": "Keilir Golf Course",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd83b5e0-86ac-11e4-8c28-020000005b00/keilir-golf-course",
+      "par": 71,
+      "holes": 18,
+      "location": "Hafnarfjörður",
+      "tees": [
+        {"color": "Hvitir (White)", "yards": 6460, "slope": 129, "course_rating_men": 72.5},
+        {"color": "Guir (Yellow)", "yards": 5885, "slope": 119, "course_rating_men": 70.0},
+        {"color": "Blár kvenna (Ladies Blue)", "yards": 5627, "slope": 121, "course_rating_men": 70.6},
+        {"color": "Blár karla (Men's Blue)", "yards": 5627, "slope": 121, "course_rating_men": 69.0},
+        {"color": "Rauðir kvenna (Ladies Red)", "yards": 4900, "slope": 115, "course_rating_men": 67.3},
+        {"color": "Rauðir karla (Men's Red)", "yards": 4900, "slope": 107, "course_rating_men": 64.6}
+      ]
+    },
+    {
+      "name": "Golfklubbur Ondverdarness",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd79f1e0-86ac-11e4-8c28-020000005b00/golfklubbur-ondverdarness",
+      "par": 71,
+      "holes": 18,
+      "location": "Reykjavík",
+      "alternate_name": "Oddur",
+      "tees": [
+        {"color": "Yellow", "yards": 5366, "slope": 134, "course_rating_men": 74.9},
+        {"color": "Red", "yards": 4628, "slope": 129, "course_rating_men": 69.7}
+      ]
+    },
+    {
+      "name": "Akureyri Golf Course",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd784430-86ac-11e4-8c28-020000005b00/akureyri-golf-course",
+      "par": 71,
+      "holes": 18,
+      "location": "Akureyri",
+      "tees": [
+        {"color": "White", "yards": 6558, "slope": 141, "course_rating_men": 72.4},
+        {"color": "Yellow", "yards": 5945, "slope": 133, "course_rating_men": 69.3},
+        {"color": "Blue", "yards": 5552, "slope": 125, "course_rating_men": 67.5},
+        {"color": "Red", "yards": 5021, "slope": 113, "course_rating_men": 65.4}
+      ]
+    },
+    {
+      "name": "Vestmannaeyja",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd78e070-86ac-11e4-8c28-020000005b00/vestmannaeyja",
+      "par": 70,
+      "holes": 18,
+      "location": "Vestmannaeyjar (Heimaey)",
+      "tees": [
+        {"color": "Blue", "yards": 5666, "slope": 121, "course_rating_men": 70.7},
+        {"color": "Red", "yards": 5258, "slope": 121, "course_rating_men": 69.9}
+      ]
+    },
+    {
+      "name": "Sudurnes Golf Course",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd750fe0-86ac-11e4-8c28-020000005b00/sudurnes-golf-course",
+      "par": 72,
+      "holes": 18,
+      "location": "Reykjanesbær",
+      "note": "Tee names shown as numbers on 18Birdies",
+      "tees": [
+        {"color": "59", "yards": 6443, "slope": 123, "course_rating_men": 73.1},
+        {"color": "54", "yards": 5966, "slope": 121, "course_rating_men": 70.7},
+        {"color": "51", "yards": 5622, "slope": 117, "course_rating_men": 69.2},
+        {"color": "45", "yards": 5106, "slope": 117, "course_rating_men": 68.2}
+      ]
+    },
+    {
+      "name": "Brautarholt Golf Course",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/b0c62eb0-ca2a-11ef-b08b-06780482e2ce/brautarholt-golf-course",
+      "par": 46,
+      "holes": 12,
+      "location": "Reykjavík",
+      "note": "Slope and course rating not listed on 18Birdies",
+      "tees": [
+        {"color": "White", "yards": 3737, "slope": null, "course_rating_men": null},
+        {"color": "Gold", "yards": 3511, "slope": null, "course_rating_men": null},
+        {"color": "Blue", "yards": 3054, "slope": null, "course_rating_men": null},
+        {"color": "Red", "yards": 2810, "slope": null, "course_rating_men": null}
+      ]
+    },
+    {
+      "name": "Geysir",
+      "18birdies_url": "https://18birdies.com/golf-courses/club/bd75fa40-86ac-11e4-8c28-020000005b00/geysir",
+      "par": null,
+      "holes": null,
+      "location": "Haukadalur",
+      "note": "No scorecard or tee data available on 18Birdies",
+      "tees": []
+    }
+  ]
+}
